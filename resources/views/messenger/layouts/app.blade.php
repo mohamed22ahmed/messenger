@@ -19,16 +19,18 @@
         @yield("content")
 
         <!--jquery library js-->
-        <script src="js/jquery-3.7.1.min.js"></script>
+        <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
         <!--bootstrap js-->
-        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
         <!--font-awesome js-->
-        <script src="js/Font-Awesome.js"></script>
-        <script src="js/slick.min.js"></script>
-        <script src="js/venobox.min.js"></script>
-        <script src="js/emojionearea.min.js"></script>
+        <script src="{{ asset('assets/js/Font-Awesome.js') }}"></script>
+        <script src="{{ asset('assets/js/slick.min.js') }}"></script>
+        <script src="{{ asset('assets/js/venobox.min.js') }}"></script>
+        <script src="{{ asset('assets/js/emojionearea.min.js') }}"></script>
 
         <!--main/custom js-->
-        <script src="js/main.js"></script>
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+
     </body>
+
 </html>
