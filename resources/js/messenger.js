@@ -24,9 +24,9 @@ function searchUsers(query){
     })
 }
 
-function userPorfile(formData){
+function userPorfile(value){
     e.preventDefault();
-    let formData = new FormData(this);
+    let formData = new FormData(value);
     let saveBtn = $('.profile-save-btn');
     saveBtn.text('Updating...').prop('disabled', true);
 
