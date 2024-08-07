@@ -13,6 +13,7 @@ function imagePreview(input, selector){
 let searchPage = 1;
 let noMoreDataSearch = false;
 let searchTempVal = "";
+let setSearchLoader = false;
 function searchUsers(query){
     if(searchTempVal != query){
         searchPage = 1; 
@@ -20,12 +21,25 @@ function searchUsers(query){
     }
     searchTempVal = query;
 
-    if(!noMoreDataSearch){
+    if(!setSearchLoader && !noMoreDataSearch){
         $.ajax({
             method:'GET',
             url: '/messenger/search',
             data: {query: query, page:searchPage},
+            beforeCreate() {
+                setSearchLoader = true;
+                let loader = `
+                <div class="text-center search-loader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>`;
+
+                $('.wsus__user_list_area_height').append(loader);
+            },
             success: function(data){
+                setSearchLoader = false;
+                $('.wsus__user_list_area_height').find('.search-loader').remove();
                 if(searchPage <2){
                     $('.wsus__user_list_area_height').html(data.html);
                 }else{
