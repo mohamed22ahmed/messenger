@@ -28,7 +28,7 @@
 
                     <div class="modal-footer p-0 mt-4">
                         <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary save">Save changes</button>
+                        <button type="submit" class="btn btn-primary save profile-save-btn">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -42,6 +42,8 @@
             $('.profile-form').on('submit', function(e){
                 e.preventDefault();
                 let formData = new FormData(this);
+                let saveBtn = $('.profile-save-btn');
+                saveBtn.text('Updating...').prop('disabled', true);
 
                 $.ajax({
                     method: 'POST',
@@ -49,10 +51,12 @@
                     data: formData,
                     processData: false,
                     contentType: false,
+
                     success: function (data){
                         data = JSON.parse(data);
                         notyf.success(data.message)
                         window.location.reload();
+                        saveBtn.text('Save changes').prop('disabled', false);
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors
@@ -60,6 +64,7 @@
                         $.each(errors, function (index, value){
                             notyf.error(value[0]);
                         })
+                        saveBtn.text('Save changes').prop('disabled', false);
                     }
                 })
             })
