@@ -10,18 +10,33 @@ function imagePreview(input, selector){
     }
 }
 
+let searchPage = 1;
+let noMoreDataSearch = false;
+let searchTempVal = "";
 function searchUsers(query){
-    $.ajax({
-        method:'GET',
-        url: '/messenger/search',
-        data: {query: query},
-        success: function(data){
-            $('.wsus__user_list_area_height').html(data.html);
-        },
-        error: function(xhr, status, error){
+    if(searchTempVal != query){
+        searchPage = 1; 
+        noMoreDataSearch = false;
+    }
+    searchTempVal = query;
 
-        }
-    })
+    if(!noMoreDataSearch){
+        $.ajax({
+            method:'GET',
+            url: '/messenger/search',
+            data: {query: query, page:searchPage},
+            success: function(data){
+                if(searchPage <2){
+                    $('.wsus__user_list_area_height').html(data.html);
+                }else{
+                    $('.wsus__user_list_area_height').append(data.html);
+                }
+
+                noMoreDataSearch = searchPage >= data.last_page
+                if(!noMoreDataSearch)searchPage++;
+            }
+        })
+    }
 }
 
 function userPorfile(value){

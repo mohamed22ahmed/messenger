@@ -15,14 +15,13 @@ class MessengerController extends Controller
         $query = $request->input('query');
         $users = User::whereLike('name', '%'.$query.'%')
                 ->orWhereLike('username', '%'.$query.'%')
-                ->limit(10)
-                ->get();
+                ->paginate(10);
 
         $html = '';
         foreach ($users as $user) {
             $html .= view('messenger.components.search-user-component', ['user' => $user])->render();
         }
 
-        return response()->json(['html' => $html]);
+        return response()->json(['html' => $html, 'last_page' => $users->lastPage()]);
     }
 }
