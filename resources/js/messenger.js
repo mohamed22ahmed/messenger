@@ -24,11 +24,43 @@ function searchUsers(query){
     })
 }
 
+function userPorfile(formData){
+    e.preventDefault();
+    let formData = new FormData(this);
+    let saveBtn = $('.profile-save-btn');
+    saveBtn.text('Updating...').prop('disabled', true);
+
+    $.ajax({
+        method: 'POST',
+        url: '/profile',
+        data: formData,
+        processData: false,
+        contentType: false,
+
+        success: function (data){
+            data = JSON.parse(data);
+            notyf.success(data.message)
+            window.location.reload();
+            saveBtn.text('Save changes').prop('disabled', false);
+        },
+        error: function(xhr, status, error){
+            let errors = xhr.responseJSON.errors
+            $.each(errors, function (index, value){
+                notyf.error(value[0]);
+            })
+            saveBtn.text('Save changes').prop('disabled', false);
+        }
+    })
+}
 
 $(document).ready(function(){
     $('#select_file').change(function(){
         imagePreview(this, '.profile-image-preview')
     })
+
+    $('.profile-form').on('submit', function(e){
+        userPorfile(this);
+    });
 
     $('.search_input').on('keyup', function(){
         let query = $(this).val();

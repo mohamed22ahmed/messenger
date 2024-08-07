@@ -35,38 +35,3 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-    <script>
-        $(document).ready(function(){
-            $('.profile-form').on('submit', function(e){
-                e.preventDefault();
-                let formData = new FormData(this);
-                let saveBtn = $('.profile-save-btn');
-                saveBtn.text('Updating...').prop('disabled', true);
-
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route("profile.update") }}',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-
-                    success: function (data){
-                        data = JSON.parse(data);
-                        notyf.success(data.message)
-                        window.location.reload();
-                        saveBtn.text('Save changes').prop('disabled', false);
-                    },
-                    error: function(xhr, status, error){
-                        let errors = xhr.responseJSON.errors
-                        $.each(errors, function (index, value){
-                            notyf.error(value[0]);
-                        })
-                        saveBtn.text('Save changes').prop('disabled', false);
-                    }
-                })
-            })
-        })
-    </script>
-@endpush
