@@ -5,7 +5,7 @@
                 <form action="#" method="post" class="profile-form" enctype="multipart/form-data">
                     @csrf
                     <div class="file profile-file">
-                        <img src="{{ asset('assets/images/'.auth()->user()->avatar) }}" alt="Upload" class="img-fluid profile-image-preview">
+                        <img src="{{ asset(auth()->user()->avatar) }}" alt="Upload" class="img-fluid profile-image-preview">
                         <label for="select_file"><i class="fal fa-camera-alt"></i></label>
                         <input id="select_file" type="file" hidden name="avatar" accept="image/*">
                     </div>
@@ -15,14 +15,14 @@
                     <input type="email" placeholder="Email" value="{{ auth()->user()->email }}" name="email">
                     <p>Change password</p>
                     <div class="row">
-                        <div class="col-xl-6">
-                            <input type="password" placeholder="Old Password" name="current_password">
+                        <div class="col-xl-12">
+                            <input type="password" placeholder="Current Password" name="current_password">
                         </div>
                         <div class="col-xl-6">
                             <input type="password" placeholder="New Password" name="password">
                         </div>
-                        <div class="col-xl-12">
-                            <input type="password" placeholder="Confirm Password" name="password_confirm">
+                        <div class="col-xl-6">
+                            <input type="password" placeholder="Confirm Password" name="password_confirmation">
                         </div>
                     </div>
 
@@ -41,17 +41,22 @@
         $(document).ready(function(){
             $('.profile-form').on('submit', function(e){
                 e.preventDefault();
-                let formData = $(this).serialize()
+                let formData = new FormData(this);
 
                 $.ajax({
                     method: 'POST',
                     url: '{{ route("profile.update") }}',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (data){
-
+                        data = JSON.parse(data);
+                        notyf.success(data.message)
+                        window.location.reload();
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors
+                        console.log(errors)
                         $.each(errors, function (index, value){
                             notyf.error(value[0]);
                         })
