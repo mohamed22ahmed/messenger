@@ -60,7 +60,6 @@
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors
-                        console.log(errors)
                         $.each(errors, function (index, value){
                             notyf.error(value[0]);
                         })
