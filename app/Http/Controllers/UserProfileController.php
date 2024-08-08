@@ -38,7 +38,6 @@ class UserProfileController extends Controller
     }
 
     public function show($id){
-        $user = User::findOrFail($id);
-        return response()->json($user);
+        return response()->json(User::findOrFail($id));
     }
 }
