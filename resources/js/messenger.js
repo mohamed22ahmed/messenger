@@ -95,9 +95,10 @@ function getUserData(userId){
     $.ajax({
         method: 'Get',
         url: '/profile/' + userId,
-
         success: function (data){
-            console.log(data)
+            $('.chat-profile-image').find('img').attr('src', data.avatar)
+            $('.chat-profile-name').text(data.name);
+            $('.chat-profile-username').text(data.username);
         }
     })
 }

@@ -5,10 +5,11 @@
     </div>
 
     <div class="wsus__chat_info_details">
-        <div class="user_photo">
-            <img src="{{ asset('assets/images/author_img_2.jpg') }}" alt="User" class="img-fluid">
+        <div class="user_photo chat-profile-image">
+            <img src="" alt="User" class="img-fluid">
         </div>
-        <h3 class="user_name">Hasan Masud</h3>
+        <h3 class="user_name chat-profile-name"></h3>
+        <p class="chat-profile-username"></p>
         <a href="#" class="delete_chat">Delete Conversation</a>
         <p class="photo_gallery">Shared Photos</p>
         <span class="nothing_share">Nothing shared yet</span>

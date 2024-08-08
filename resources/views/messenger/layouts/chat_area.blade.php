@@ -2,12 +2,12 @@
     <div class="wsus__message_paceholder d-none"></div>
 
     <div class="wsus__chat_area_header">
-        <div class="header_left">
+        <div class="header_left chat-profile-image">
             <span class="back_to_list">
                 <i class="fas fa-arrow-left"></i>
             </span>
-            <img src="{{ asset('assets/images/author_img_2.jpg') }}" alt="User" class="img-fluid">
-            <h4>Jubaydul islam</h4>
+            <img src="" alt="User" class="img-fluid">
+            <h4 class="chat-profile-name"></h4>
         </div>
         <div class="header_right">
             <a href="#" class="favourite"><i class="fas fa-star"></i></a>
