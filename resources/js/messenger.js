@@ -91,6 +91,17 @@ function userPorfile(value){
     })
 }
 
+function getUserData(userId){
+    $.ajax({
+        method: 'Get',
+        url: '/profile/' + userId,
+
+        success: function (data){
+            console.log(data)
+        }
+    })
+}
+
 $(document).ready(function(){
     $('#select_file').change(function(){
         imagePreview(this, '.profile-image-preview')
@@ -104,6 +115,11 @@ $(document).ready(function(){
         let query = $(this).val();
         if(query.length >=2)
             searchUsers(query)
+    })
+
+    $("body").on('click', '.messenger-user-data', function(e){
+        const userId = e.currentTarget.getAttribute('data-id')
+        getUserData(userId)
     })
 
     actionOnScroll('.user_search_list_result', function (){

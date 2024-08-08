@@ -37,4 +37,8 @@ class UserProfileController extends Controller
         return json_encode(['message' => 'Updated Successfully']);
     }
 
+    public function show($id){
+        $user = User::findOrFail($id);
+        return response()->json($user);
+    }
 }
