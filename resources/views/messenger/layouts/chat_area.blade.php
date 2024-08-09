@@ -75,13 +75,14 @@
                 <img src="images/chat_img.png" alt="User" class="img-fluid">
                 <span><i class="far fa-times"></i></span>
             </div> -->
-            <form action="#">
+            <form action="#" method="post" class="send-message-form" enctype="multipart/form-data">
+                @csrf
                 <div class="file">
                     <label for="file"><i class="far fa-plus"></i></label>
-                    <input id="file" type="file" hidden>
+                    <input type="file" hidden name="attachment" accept="image/*">
                 </div>
-                <textarea id="example1" rows="1" placeholder="Type a message.."></textarea>
-                <button><i class="fas fa-paper-plane"></i></button>
+                <textarea rows="1" class="message_body" placeholder="Type a message.." name="message"></textarea>
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
     </div>

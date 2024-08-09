@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('to_id');
             $table->text('body');
             $table->string('attachment_link')->nullable();
+            $table->boolean('seen')->default(false);
             $table->timestamps();
         });
     }

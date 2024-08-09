@@ -34,7 +34,7 @@ class UserProfileController extends Controller
             'avatar' => $avatarPath
         ]);
 
-        return json_encode(['message' => 'Updated Successfully']);
+        return response()->json(['message' => 'Updated Successfully']);
     }
 
     public function show($id){

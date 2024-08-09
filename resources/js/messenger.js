@@ -1,3 +1,5 @@
+let messengerId = 0;
+
 function imagePreview(input, selector){
     if(input.files && input.files[0]){
         var render = new FileReader();
@@ -16,7 +18,7 @@ let searchTempVal = "";
 let setSearchLoader = false;
 function searchUsers(query){
     if(searchTempVal != query){
-        searchPage = 1; 
+        searchPage = 1;
         noMoreDataSearch = false;
     }
     searchTempVal = query;
@@ -76,7 +78,6 @@ function userPorfile(value){
         contentType: false,
 
         success: function (data){
-            data = JSON.parse(data);
             notyf.success(data.message)
             window.location.reload();
             saveBtn.text('Save changes').prop('disabled', false);
@@ -99,6 +100,55 @@ function getUserData(userId){
             $('.chat-profile-image').find('img').attr('src', data.avatar)
             $('.chat-profile-name').text(data.name);
             $('.chat-profile-username').text(data.username);
+            messengerId = userId;
+        }
+    })
+}
+
+function scrollToBottom() {
+    $('.wsus__chat_area_body').scrollTop($('.wsus__chat_area_body')[0].scrollHeight);
+}
+
+function addMessage(message){
+    let content = `
+        <div class="wsus__single_chat_area">
+            <div class="wsus__single_chat chat_right">
+                <p class="messages">${message}</p>
+                <span class="clock"><i class="fas fa-clock"></i> 5h ago</span>
+
+                <a class="action" href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    `;
+
+    $('.wsus__chat_area_body').append(content)
+    $('.message_body').val('').focus()
+    scrollToBottom();
+}
+
+function getParameterByName(name, serializedData) {
+    var match = serializedData.match(new RegExp('(^|&)' + name + '=([^&]*)'));
+    return match ? decodeURIComponent(match[2].replace(/\+/g, ' ')) : null;
+}
+
+function sendMessage(formData){
+    var message = getParameterByName('message', formData);
+    addMessage(message)
+    $.ajax({
+        method: 'POST',
+        url: '/send-message',
+        data: formData,
+
+        success: function (data){
+            notyf.success(data.result)
+            $('.wsus__single_chat_area span').remove();
+            $('.wsus__single_chat_area p').after('<span class="time"> 5h ago</span>');
+        },
+        error: function(xhr, status, error){
+            let errors = xhr.responseJSON.errors
+            $.each(errors, function (index, value){
+                notyf.error(value[0]);
+            })
         }
     })
 }
@@ -127,4 +177,18 @@ $(document).ready(function(){
         let value = $('.search_input').val();
         searchUsers(value);
     })
+
+    $('.send-message-form').on('submit', function(e){
+        e.preventDefault();
+        let formData = $(this).serialize();
+        formData += '&reciever='+messengerId
+        sendMessage(formData)
+    });
+
+    $('.send-message-form').keypress(function(e) {
+        if (e.which == 13) { // 13 is the Enter key
+            e.preventDefault(); // Prevent the default form submission
+            $('.send-message-form').submit();  // Submit the form
+        }
+    });
 });
