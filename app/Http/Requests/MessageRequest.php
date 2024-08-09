@@ -22,7 +22,7 @@ class MessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attachment' => 'nullable|image|max:2048',
+            'attachment' => 'required_without:message|image|max:2048',
             'message' => 'required_without:attachment|max:255',
             'reciever' => 'required|exists:users,id'
         ];

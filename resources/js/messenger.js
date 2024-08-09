@@ -1,3 +1,8 @@
+// code for displaying the formData keys and values
+/**for (var pair of formData.entries()) {
+    console.log(pair[0]+ ': ' + pair[1]);
+}*/
+
 let messengerId = 0;
 let emojiPicker = $("#example1").emojioneArea();
 
@@ -112,6 +117,8 @@ function addMessage(message){
     scrollToBottom();
     emojiPicker[0].emojioneArea.setText('');
     emojiPicker[0].emojioneArea.setFocus();
+    $('#attachment-chat-form').val('')
+    $('.attachment-block').addClass('d-none');
 }
 
 function sendMessage(value){
@@ -119,9 +126,6 @@ function sendMessage(value){
     var message = emojiPicker[0].emojioneArea.getText()
     formData.set('message', message);
     formData.append('reciever', messengerId)
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0]+ ': ' + pair[1]);
-    // }
 
     addMessage(message)
     $.ajax({
@@ -181,4 +185,9 @@ $(document).ready(function(){
             sendMessage(this)
         }
     });
+
+    $('#attachment-chat-form').change(function(){
+        $('.attachment-block').removeClass('d-none');
+        imagePreview(this, '.attachment-preview')
+    })
 });

@@ -71,10 +71,10 @@
 
     <div class="wsus__chat_area_footer">
         <div class="footer_message">
-            <!-- <div class="img">
-                <img src="images/chat_img.png" alt="User" class="img-fluid">
+            <div class="img d-none attachment-block">
+                <img src="{{ asset('assets/images/chat_img.png') }}" alt="User" class="img-fluid attachment-preview">
                 <span><i class="far fa-times"></i></span>
-            </div> -->
+            </div>
             <form action="#" method="post" class="send-message-form" enctype="multipart/form-data">
                 @csrf
                 <div class="file">
