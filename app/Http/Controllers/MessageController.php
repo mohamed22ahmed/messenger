@@ -13,7 +13,7 @@ class MessageController extends Controller
     use FileUploadTrait, MessengerTrait;
 
     public function sendMessage(MessageRequest $request){
-        $attachment = $this->uploadFile($request, 'attachment');
+        $attachment = $this->uploadFile($request, 'attachment', '/attachments');
         $message = Message::create([
             'from_id' => Auth::user()->id,
             'to_id' => $request->reciever,

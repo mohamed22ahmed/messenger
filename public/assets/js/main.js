@@ -70,13 +70,6 @@ $(function () {
     //===venobox.js===
     $('.venobox').venobox();
 
-
-    // emoji js
-    $(document).ready(function () {
-        $("#example1").emojioneArea();
-    });
-
-
     // user info (Right sidebar)
     $(".info").on("click", function () {
         $(".wsus__chat_app").toggleClass("show_info");

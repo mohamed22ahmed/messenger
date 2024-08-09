@@ -1,4 +1,5 @@
 let messengerId = 0;
+let emojiPicker = $("#example1").emojioneArea();
 
 function imagePreview(input, selector){
     if(input.files && input.files[0]){
@@ -108,22 +109,27 @@ function addMessage(message){
     `;
 
     $('.wsus__chat_area_body').append(content)
-    $('.message_body').val('').focus()
     scrollToBottom();
+    emojiPicker[0].emojioneArea.setText('');
+    emojiPicker[0].emojioneArea.setFocus();
 }
 
-function getParameterByName(name, serializedData) {
-    var match = serializedData.match(new RegExp('(^|&)' + name + '=([^&]*)'));
-    return match ? decodeURIComponent(match[2].replace(/\+/g, ' ')) : null;
-}
+function sendMessage(value){
+    let formData = new FormData(value)
+    var message = emojiPicker[0].emojioneArea.getText()
+    formData.set('message', message);
+    formData.append('reciever', messengerId)
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ': ' + pair[1]);
+    // }
 
-function sendMessage(formData){
-    var message = getParameterByName('message', formData);
     addMessage(message)
     $.ajax({
         method: 'POST',
         url: '/send-message',
         data: formData,
+        processData: false,
+        contentType: false,
 
         success: function (data){
             notyf.success(data.result)
@@ -166,15 +172,13 @@ $(document).ready(function(){
 
     $('.send-message-form').on('submit', function(e){
         e.preventDefault();
-        let formData = $(this).serialize();
-        formData += '&reciever='+messengerId
-        sendMessage(formData)
+        sendMessage(this)
     });
 
     $('.send-message-form').keypress(function(e) {
         if (e.which == 13) {
-            e.preventDefault();
-            $('.send-message-form').submit();
+            e.preventDefault()
+            sendMessage(this)
         }
     });
 });

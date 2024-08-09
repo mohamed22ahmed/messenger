@@ -78,10 +78,10 @@
             <form action="#" method="post" class="send-message-form" enctype="multipart/form-data">
                 @csrf
                 <div class="file">
-                    <label for="file"><i class="far fa-plus"></i></label>
-                    <input type="file" hidden name="attachment" accept="image/*">
+                    <label for="attachment-chat-form"><i class="far fa-plus"></i></label>
+                    <input type="file" hidden id="attachment-chat-form" name="attachment" accept="image/*">
                 </div>
-                <textarea rows="1" class="message_body" placeholder="Type a message.." name="message"></textarea>
+                <textarea rows="1" id="example1" class="message_body" placeholder="Type a message.." name="message"></textarea>
                 <button type="submit"><i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
