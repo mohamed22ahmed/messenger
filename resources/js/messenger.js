@@ -100,7 +100,7 @@ function addMessage(message){
         <div class="wsus__single_chat_area">
             <div class="wsus__single_chat chat_right">
                 <p class="messages">${message}</p>
-                <span class="clock"><i class="fas fa-clock"></i> 5h ago</span>
+                <span class="clock"><i class="fas fa-clock"></i> Now</span>
 
                 <a class="action" href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
             </div>
@@ -128,7 +128,7 @@ function sendMessage(formData){
         success: function (data){
             notyf.success(data.result)
             $('.wsus__single_chat_area span').remove();
-            $('.wsus__single_chat_area p').after('<span class="time"> 5h ago</span>');
+            $('.wsus__single_chat_area p').after('<span class="time">' + data.sent + '</span>');
         },
         error: function(xhr, status, error){
             let errors = xhr.responseJSON.errors
