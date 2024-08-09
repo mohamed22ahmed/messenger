@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('from_id');
             $table->foreignId('to_id');
-            $table->text('body');
+            $table->text('body')->nullable();
             $table->string('attachment_link')->nullable();
             $table->boolean('seen')->default(false);
             $table->timestamps();
