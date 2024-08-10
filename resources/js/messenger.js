@@ -2,6 +2,7 @@
 /**for (var pair of formData.entries()) {
     console.log(pair[0]+ ': ' + pair[1]);
 }*/
+import *  as addMessage from'./addMessage.js';
 
 let messengerId = 0;
 let emojiPicker = $("#example1").emojioneArea();
@@ -101,19 +102,7 @@ function scrollToBottom() {
     $('.wsus__chat_area_body').scrollTop($('.wsus__chat_area_body')[0].scrollHeight);
 }
 
-function addMessage(message){
-    let content = `
-        <div class="wsus__single_chat_area">
-            <div class="wsus__single_chat chat_right">
-                <p class="messages">${message}</p>
-                <span class="clock"><i class="fas fa-clock"></i> Now</span>
-
-                <a class="action" href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
-            </div>
-        </div>
-    `;
-
-    $('.wsus__chat_area_body').append(content)
+function resetValues(){
     scrollToBottom();
     emojiPicker[0].emojioneArea.setText('');
     emojiPicker[0].emojioneArea.setFocus();
@@ -127,7 +116,6 @@ function sendMessage(value){
     formData.set('message', message);
     formData.append('reciever', messengerId)
 
-    addMessage(message)
     $.ajax({
         method: 'POST',
         url: '/send-message',
@@ -137,8 +125,10 @@ function sendMessage(value){
 
         success: function (data){
             notyf.success(data.result)
-            $('.wsus__single_chat_area span').remove();
+            addMessage.addingMessageAndOrImage(data.message, data.attachment)
+            $('.wsus__single_chat_area span').remove()
             $('.wsus__single_chat_area p').after('<span class="time">' + data.sent + '</span>');
+            resetValues()
         },
         error: function(xhr, status, error){
             let errors = xhr.responseJSON.errors
@@ -189,5 +179,10 @@ $(document).ready(function(){
     $('#attachment-chat-form').change(function(){
         $('.attachment-block').removeClass('d-none');
         imagePreview(this, '.attachment-preview')
+    })
+
+    $('.cancel-attachment').on('click', function(){
+        $('#attachment-chat-form').val('')
+        $('.attachment-block').addClass('d-none');
     })
 });

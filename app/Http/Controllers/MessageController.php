@@ -23,6 +23,6 @@ class MessageController extends Controller
 
         $sentTime = $this->timeAge($message->created_at);
 
-        return response()->json(['result' => 'message sent successfully', 'message' => $request->message, 'sent' => $sentTime]);
+        return response()->json(['result' => 'message sent successfully', 'message' => $request->message, 'sent' => $sentTime, 'attachment' => $attachment]);
     }
 }
