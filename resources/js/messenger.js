@@ -94,6 +94,9 @@ function getUserData(userId){
             $('.chat-profile-name').text(data.name);
             $('.chat-profile-username').text(data.username);
             messengerId = userId;
+
+            $('#blankDiv').remove()
+            $('.wsus__chat_app').removeClass('show_info')
         }
     })
 }

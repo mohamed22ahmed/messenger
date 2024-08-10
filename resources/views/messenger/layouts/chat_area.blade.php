@@ -1,5 +1,6 @@
 <div class="wsus__chat_area">
     <div class="wsus__message_paceholder d-none"></div>
+    <div class="wsus__message_paceholder blank" id="blankDiv"></div>
 
     <div class="wsus__chat_area_header">
         <div class="header_left chat-profile-image">
