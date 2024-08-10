@@ -630,8 +630,14 @@ button {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #ffff;
     z-index: 9999;
+    background-color: #ece9e9;
+}
+
+.nothing_share{
+    background-color: #c4bfbf;
+    border-radius: 10px;
+    padding: 5px 15px 5px 15px;
 }
 
 .wsus__chat_area_header {
