@@ -2,10 +2,12 @@
 /**for (var pair of formData.entries()) {
     console.log(pair[0]+ ': ' + pair[1]);
 }*/
-import *  as addMessage from'./addMessage.js';
+import *  as messages from'./messages.js';
 
 let messengerId = 0;
-let emojiPicker = $("#example1").emojioneArea();
+let searchPage = 1;
+let noMoreDataSearch = false;
+let searchTempVal = "";
 
 function imagePreview(input, selector){
     if(input.files && input.files[0]){
@@ -19,9 +21,6 @@ function imagePreview(input, selector){
     }
 }
 
-let searchPage = 1;
-let noMoreDataSearch = false;
-let searchTempVal = "";
 function searchUsers(query){
     if(searchTempVal != query){
         searchPage = 1;
@@ -97,47 +96,8 @@ function getUserData(userId){
 
             $('#blankDiv').remove()
             $('.wsus__chat_app').removeClass('show_info')
-        }
-    })
-}
 
-function scrollToBottom() {
-    $('.wsus__chat_area_body').scrollTop($('.wsus__chat_area_body')[0].scrollHeight);
-}
-
-function resetValues(){
-    scrollToBottom();
-    emojiPicker[0].emojioneArea.setText('');
-    emojiPicker[0].emojioneArea.setFocus();
-    $('#attachment-chat-form').val('')
-    $('.attachment-block').addClass('d-none');
-}
-
-function sendMessage(value){
-    let formData = new FormData(value)
-    var message = emojiPicker[0].emojioneArea.getText()
-    formData.set('message', message);
-    formData.append('reciever', messengerId)
-
-    $.ajax({
-        method: 'POST',
-        url: '/send-message',
-        data: formData,
-        processData: false,
-        contentType: false,
-
-        success: function (data){
-            notyf.success(data.result)
-            addMessage.addingMessageAndOrImage(data.message, data.attachment)
-            $('.wsus__single_chat_area span').remove()
-            $('.wsus__single_chat_area p').after('<span class="time">' + data.sent + '</span>');
-            resetValues()
-        },
-        error: function(xhr, status, error){
-            let errors = xhr.responseJSON.errors
-            $.each(errors, function (index, value){
-                notyf.error(value[0]);
-            })
+            messages.fetchMessages(userId)
         }
     })
 }
@@ -169,13 +129,13 @@ $(document).ready(function(){
 
     $('.send-message-form').on('submit', function(e){
         e.preventDefault();
-        sendMessage(this)
+        messages.sendMessage(this, messengerId)
     });
 
     $('.send-message-form').keypress(function(e) {
         if (e.which == 13) {
             e.preventDefault()
-            sendMessage(this)
+            messages.sendMessage(this, messengerId)
         }
     });
 
@@ -188,4 +148,8 @@ $(document).ready(function(){
         $('#attachment-chat-form').val('')
         $('.attachment-block').addClass('d-none');
     })
+
+    actionOnScroll('.wsus__chat_area_body', function (){
+        messages.fetchMessages(messengerId);
+    }, true)
 });

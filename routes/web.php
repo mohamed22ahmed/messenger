@@ -24,8 +24,10 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
     Route::get('/messenger', [MessengerController::class, 'index'])->name('messenger.index');
-    Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send-message');
     Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');
+
+    Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send-message');
+    Route::get('/fetch-messages', [MessageController::class, 'fetchMessage'])->name('fetch-messages');
 });

@@ -761,7 +761,7 @@ button {
 
 .wsus__single_chat .time {
     display: block;
-    font-size: 14px;
+    font-size: 10px;
     color: var(--paraColor);
     font-weight: 400;
     position: absolute;
